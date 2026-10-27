@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    /** Desde Android 17 los servicios en IPs privadas (10.0.2.2, ZeroTier) necesitan este permiso. */
+    /** Desde Android 17 conectarse a backends en IPs privadas (10.0.2.2 en desarrollo) necesita este permiso. */
     private fun tieneRedLocal(): Boolean =
         Build.VERSION.SDK_INT < Build.VERSION_CODES.CINNAMON_BUN ||
             checkSelfPermission(REDLOCAL) == PackageManager.PERMISSION_GRANTED
