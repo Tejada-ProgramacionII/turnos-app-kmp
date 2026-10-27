@@ -31,6 +31,10 @@ private suspend fun rechazo(respuesta: HttpResponse): ResultadoApi<Nothing> {
             cuerpo?.errors.orEmpty().map { ErrorDeCampo(it.field, it.defaultMessage) },
         )
         HttpStatusCode.Unauthorized -> ResultadoApi.NoAutorizado(cuerpo?.detail)
+        HttpStatusCode.NotFound -> ResultadoApi.NoEncontrado(cuerpo?.detail)
+        HttpStatusCode.Conflict -> ResultadoApi.Conflicto(cuerpo?.detail)
+        HttpStatusCode.ServiceUnavailable -> ResultadoApi.NoDisponible(cuerpo?.detail)
+        HttpStatusCode.BadGateway -> ResultadoApi.ErrorDeIntegracion(cuerpo?.detail)
         else -> ResultadoApi.ErrorHttp(respuesta.status.value, cuerpo?.detail)
     }
 }

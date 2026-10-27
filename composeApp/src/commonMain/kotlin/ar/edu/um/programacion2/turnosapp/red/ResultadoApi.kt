@@ -10,6 +10,18 @@ sealed interface ResultadoApi<out T> {
     /** 401: credenciales inválidas o sesión vencida. */
     data class NoAutorizado(val detalle: String?) : ResultadoApi<Nothing>
 
+    /** 404: el recurso pedido no existe (ej. un profesional). */
+    data class NoEncontrado(val detalle: String?) : ResultadoApi<Nothing>
+
+    /** 409: el pedido choca con el estado actual (ej. profesional deshabilitado). */
+    data class Conflicto(val detalle: String?) : ResultadoApi<Nothing>
+
+    /** 503: el servicio, o alguien de quien depende, no puede responder ahora; se puede reintentar. */
+    data class NoDisponible(val detalle: String?) : ResultadoApi<Nothing>
+
+    /** 502: falló la integración entre servicios. */
+    data class ErrorDeIntegracion(val detalle: String?) : ResultadoApi<Nothing>
+
     data class ErrorHttp(val status: Int, val detalle: String?) : ResultadoApi<Nothing>
 
     /** El servicio contestó 2xx pero con un cuerpo que no se pudo leer. */
