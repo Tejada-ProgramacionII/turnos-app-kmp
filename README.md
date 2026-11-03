@@ -64,3 +64,13 @@ Las URLs base están en `composeApp/.../config/ApiConfig.kt`:
   adb shell pm grant ar.edu.um.programacion2.turnosapp android.permission.ACCESS_LOCAL_NETWORK
   ```
 - **Sesión:** el JWT de `POST /api/authenticate` se guarda solo en memoria (`SessionStore`) y un plugin de Ktor lo manda como `Authorization: Bearer` en cada pedido. Al cerrar la app hay que volver a iniciar sesión.
+
+### Endpoints que usa la app
+
+| Clase (`composeApp`) | Método | Endpoint |
+|---|---|---|
+| `TurnosApi` | `registrar`, `iniciarSesion`, `cuenta` | `POST /api/register`, `POST /api/authenticate`, `GET /api/account` (turnos) |
+| `CatalogoApi` | `buscarProfesionales`, `consultarAgenda` | `GET /api/profesionales`, `GET /api/profesionales/{id}` (catálogo) |
+| `DisponibilidadApi` | `consultar` | `GET /api/disponibilidad` (turnos) |
+
+Todos devuelven un `ResultadoApi`: `Exito` o un error tipado según el status (`Invalido` 400, `NoAutorizado` 401, `NoEncontrado` 404, `Conflicto` 409, `NoDisponible` 503, `ErrorDeIntegracion` 502, `ErrorHttp` para el resto), `RespuestaInesperada` si el cuerpo no se puede leer y `SinConexion` si falla la red. Las fechas y horas usan kotlinx-datetime (`LocalDate`, `LocalTime`, `DayOfWeek`).
